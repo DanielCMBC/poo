@@ -1,11 +1,12 @@
+// O nome da classe foi alterado para MedianCalculator. Você deve renomear o arquivo para MedianCalculator.java
 public class medianCalculator {
-    public static double findMedian(int[] numbers) {
-        java.util.Arrays.sort(numbers);
-        int n = numbers.length;
-        if (n % 2 == 1) {
-            return numbers[n / 2];
+    public static int findMedian(int a, int b, int c) {
+        if ((a >= b && a <= c) || (a <= b && a >= c)) {
+            return a;
+        } else if ((b >= a && b <= c) || (b <= a && b >= c)) {
+            return b;
         } else {
-            return (numbers[n / 2 - 1] + numbers[n / 2]) / 2.0;
+            return c;
         }
     }
 
@@ -13,15 +14,14 @@ public class medianCalculator {
         int num1;
         int num2;
         int num3;
-        System.out.println("Digite o primeiro número: ");
+        System.out.print("Digite o primeiro número: ");
         java.util.Scanner scanner = new java.util.Scanner(System.in);
         num1 = scanner.nextInt();
-        System.out.println("Digite o segundo número: ");
+        System.out.print("Digite o segundo número: ");
         num2 = scanner.nextInt();
-        System.out.println("Digite o terceiro número: ");
+        System.out.print("Digite o terceiro número: ");
         num3 = scanner.nextInt();
-        int[] numbers = {num1, num2, num3};
-        double median = findMedian(numbers);
-        System.out.println("A mediana é: " + median);
+        int median = findMedian(num1, num2, num3);
+        System.out.println("A mediana dos números é: " + median);
     }
 }
