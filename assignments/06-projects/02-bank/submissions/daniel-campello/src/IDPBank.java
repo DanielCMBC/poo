@@ -15,7 +15,7 @@ public abstract class IDPBank { // Removed 'abstract' for direct instantiation i
     }
 
     public static int getClientCount() {
-        return clientCount;
+        return this.clientCount;
     }
 
     public int getID() {
