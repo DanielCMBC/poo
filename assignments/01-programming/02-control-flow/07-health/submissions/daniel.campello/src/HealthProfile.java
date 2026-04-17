@@ -1,6 +1,3 @@
-import java.time.LocalDate;
-import java.time.Period;
-
 public class HealthProfile {
     private String firstName;
     private String lastName;
@@ -11,16 +8,9 @@ public class HealthProfile {
     private double heightInInches;
     private double weightInPounds;
 
-    public HealthProfile(
-        String firstName,
-        String lastName,
-        char gender,
-        int dayOfBirth,
-        int monthOfBirth,
-        int yearOfBirth,
-        double heightInInches,
-        double weightInPounds
-    ) {
+    public HealthProfile(String firstName, String lastName, char gender,
+                         int dayOfBirth, int monthOfBirth, int yearOfBirth,
+                         double heightInInches, double weightInPounds) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -95,14 +85,23 @@ public class HealthProfile {
         this.weightInPounds = weightInPounds;
     }
 
+    public int calculateAge(int currentYear) {
+        return currentYear - yearOfBirth;
+    }
+
     public int calculateAge() {
-        LocalDate birthDate = LocalDate.of(yearOfBirth, monthOfBirth, dayOfBirth);
-        LocalDate currentDate = LocalDate.now();
-        return Period.between(birthDate, currentDate).getYears();
+        return java.time.LocalDate.now().getYear() - yearOfBirth;
     }
 
     public int calculateMaxHeartRate() {
         return 220 - calculateAge();
+    }
+
+    public String calculateTargetHeartRate() {
+        int maxHeartRate = calculateMaxHeartRate();
+        int minTarget = (int) Math.round(maxHeartRate * 0.50);
+        int maxTarget = (int) Math.round(maxHeartRate * 0.85);
+        return minTarget + " bpm - " + maxTarget + " bpm";
     }
 
     public double[] calculateTargetHeartRateRange() {

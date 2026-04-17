@@ -1,7 +1,3 @@
-import java.util.Scanner;
-import java.time.LocalDate;
-import java.time.Period;
-
 public class HeartRates {
     private String firstName;
     private String lastName;
@@ -57,10 +53,12 @@ public class HeartRates {
         this.yearOfBirth = yearOfBirth;
     }
 
+    public int calculateAge(int currentYear) {
+        return currentYear - yearOfBirth;
+    }
+
     public int calculateAge() {
-        LocalDate birthDate = LocalDate.of(yearOfBirth, monthOfBirth, dayOfBirth);
-        LocalDate currentDate = LocalDate.now();
-        return Period.between(birthDate, currentDate).getYears();
+        return java.time.LocalDate.now().getYear() - yearOfBirth;
     }
 
     public int calculateMaxHeartRate() {
@@ -69,32 +67,8 @@ public class HeartRates {
 
     public String calculateTargetHeartRate() {
         int maxHeartRate = calculateMaxHeartRate();
-        double minTarget = maxHeartRate * 0.50;
-        double maxTarget = maxHeartRate * 0.85;
-        return String.format("%.0f bpm - %.0f bpm", minTarget, maxTarget);
-    }
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Digite seu primeiro nome: ");
-        String firstName = scanner.nextLine();
-        System.out.print("Digite seu sobrenome: ");
-        String lastName = scanner.nextLine();
-        System.out.print("Digite sua data de nascimento (dia, mês e ano separados por espaço): ");
-        int day = scanner.nextInt();
-        int month = scanner.nextInt();
-        int year = scanner.nextInt();
-
-        HeartRates person = new HeartRates(firstName, lastName, day, month, year);
-
-        System.out.println("\nNome: " + person.getFirstName() + " " + person.getLastName());
-        System.out.printf("Data de nascimento: %d/%d/%d%n", person.getDayOfBirth(), person.getMonthOfBirth(), person.getYearOfBirth());
-        System.out.println("Idade: " + person.calculateAge() + " anos");
-        System.out.println("Frequência cardíaca máxima: " + person.calculateMaxHeartRate() + " bpm");
-        System.out.println("Faixa de frequência cardíaca alvo: " + person.calculateTargetHeartRate());
-
-        scanner.close();
+        int minTarget = (int) Math.round(maxHeartRate * 0.50);
+        int maxTarget = (int) Math.round(maxHeartRate * 0.85);
+        return minTarget + " bpm - " + maxTarget + " bpm";
     }
 }
-
