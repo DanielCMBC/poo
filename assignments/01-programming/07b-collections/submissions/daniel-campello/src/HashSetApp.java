@@ -21,6 +21,9 @@ public class HashSetApp {
             System.out.println(cor);
         }
 
+        HashSet<String> clone_cores = (HashSet<String>) cores.clone();
+        System.out.println(clone_cores);
+
 
         HashSet<String> copia_cores = new HashSet<>(cores);
             System.out.println(copia_cores);
@@ -75,5 +78,7 @@ public class HashSetApp {
             }
         }
         scanner.close();
+        
+        cores.clear();
     }
 }

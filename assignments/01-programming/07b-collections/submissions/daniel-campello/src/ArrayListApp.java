@@ -99,7 +99,7 @@ public class ArrayListApp {
         List<String> todas_cores = new ArrayList<>(cores);
         Collections.addAll(todas_cores, copia_cores.toArray(new String[0]));
         System.out.println(todas_cores);
-
+        
         cores.clear();
         System.out.println(cores);
 
