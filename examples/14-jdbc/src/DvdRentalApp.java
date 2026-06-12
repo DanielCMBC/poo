@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -14,35 +15,39 @@ public class DvdRentalApp {
 
     public static void main(String[] args) {
         Properties props = new Properties();
-
-        try (var input = Files.newInputStream(Paths.get("db.properties"))) {
+        //verifica se o arquivo properties existe, se nao dispara excesao
+        try (InputStream input = Files.newInputStream(Paths.get("db.properties"))) {
             props.load(input);
         } catch (IOException e) {
             System.err.println("Erro ao carregar arquivo de configuração: " + e.getMessage());
             return;
         }
-
+        //procura as linhas com as credencias do driver do servidor sgbd no properties
         String url = props.getProperty("url");
         String user = props.getProperty("user");
         String password = props.getProperty("password");
-
+        
+        //tenta conectar com o banco de dados diretamente com as credencias do properties
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             conn.setAutoCommit(false); 
 
             System.out.println("=== Filmes disponíveis ===");
+            // Tenta selecionar as colunas film_id, title e release_year da tabela film
             try (Statement stmt = conn.createStatement();
                  ResultSet rs = stmt.executeQuery("SELECT film_id, title, release_year FROM film LIMIT 5")) {
-
+                //Executa queries com um comando, ex: ResultSet
                 while (rs.next()) {
+                    //Quando captura os dados das colunas, os exibe na tela
                     System.out.printf("ID: %d | Título: %s | Ano: %s%n",
                             rs.getInt("film_id"),
                             rs.getString("title"),
                             rs.getString("release_year"));
                 }
             }
-
+            //Tenta executar uma query de filtro de busca com WHERE apos o usuario
             System.out.println("\n=== Buscar ator pelo sobrenome ===");
             String sobrenome = "Chase";
+            // variavel para pesquisa
             try (PreparedStatement ps = conn.prepareStatement(
                     "SELECT actor_id, first_name, last_name FROM actor WHERE last_name = ?")) {
                 ps.setString(1, sobrenome);
